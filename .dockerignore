@@ -1,0 +1,22 @@
+# git
+.git
+.gitignore
+
+# application
+apps/admin/app
+apps/admin/bin
+apps/admin/config
+apps/admin/db
+apps/admin/lib
+apps/admin/log
+apps/admin/node_modules
+apps/admin/public
+apps/admin/storage
+apps/admin/test
+apps/admin/tmp
+apps/admin/vendor
+
+# common
+docker-compose.yml
+Makefile
+README.md

@@ -1,0 +1,41 @@
+version: '3.9'
+
+volumes:
+  ruby-mysql:
+
+services:
+
+  app:
+    build: 
+      context: ./
+      dockerfile: ./docker/ruby/Dockerfile
+      args:
+        - UID=1000
+        - GID=1000
+        - APPDIR=apps/admin
+        - WORKDIR=/src
+    image: ruby/app
+    container_name: app
+    volumes:
+      - ./apps/admin:/src
+    ports:
+      - 3000:3000
+    command: bash -c "bundle exec rails s -p 3000 -b '0.0.0.0'"
+
+  db:
+    image: mysql:8.0.16
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: ruby
+      MYSQL_PASSWORD: ruby
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - ruby-mysql:/var/lib/mysql
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    ports:
+      - 8080:8080
