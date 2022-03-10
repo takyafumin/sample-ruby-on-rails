@@ -1,8 +1,10 @@
 .DEFAULT_GOAL := help
 
-init: ## Setup environment for develop(build containers and startup containers)
+init: ## Setup environment for develop(build containers, db migration and startup containers)
 	@make build
 	@make up
+	sleep 30
+	@make migrate
 	@echo "complete init."
 
 build: ## Build docker containers
@@ -28,6 +30,9 @@ bash: ## Exec bash in php container
 
 mysql: ## Exec mysql cli in mysql container
 	@docker-compose exec db mysql -u ruby -p
+
+migrate:
+	@docker-compose exec app bin/rails db:migrate
 
 help: ## Show help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'

@@ -20,3 +20,32 @@ rails new admin -d mysql -j esbuild --css tailwind
 
 * データベース設定
     - admin/config/database.yml
+
+
+ログインユーザ機能作成
+--------------------
+
+* Gemfileに以下を追加
+
+```
+# 暗号化
+gem 'bcrypt'
+```
+
+* bundle install
+
+```bash
+bundle install
+```
+
+* scaffold
+
+```bash
+make bash
+
+# コンテナ内でscaffoldを実行
+rails g scaffold User name:string email:string password_digest:string
+
+# migration
+rails db:migrate
+```
